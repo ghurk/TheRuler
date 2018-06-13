@@ -1,0 +1,33 @@
+{
+  "name": "disbot",
+  "version": "1.0.0",
+  "description": "just a bot",
+  "main": "bot.js",
+  "engines": {
+    "node": "8.x",
+    "npm": "*"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghurk/TheRuler.git"
+  },
+  "keywords": [
+    "bot",
+    "discord"
+  ],
+  "author": "ghurk",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ghurk/TheRuler/issues"
+  },
+  "homepage": "https://github.com/ghurk/TheRuler#readme"
+}
