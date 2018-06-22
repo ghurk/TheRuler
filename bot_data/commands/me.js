@@ -1,5 +1,5 @@
 
-exports.command = 'me';
+exports.command = 'meow';
 exports.description = `i am able to tell you details about yourself\nFormat:\n'${global.prefix}me'`;
 exports.func = function( message ) {
 	message.delete().catch(O_o=>{});
