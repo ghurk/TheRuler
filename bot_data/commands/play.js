@@ -38,5 +38,5 @@ exports.func = function( message ) {
   //delete request message
   message.delete().catch(O_o=>{});
   //do something wtfffffffffffffff
-  message.channel.send(`${url} // ${target}`);
+  message.channel.send(`${url} //// ${target}`);
 };
