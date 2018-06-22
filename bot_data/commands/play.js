@@ -15,7 +15,7 @@ exports.func = function( message ) {
     // Join a voice channel
     target.join()
     .then( connection => message.channel.send(`connected`) )
-    .catch( message.channel.send(`error`) );
+    .catch( console.error );
     //const dispatcher = connection.playFile('./audiofile.mp3');
 
 
