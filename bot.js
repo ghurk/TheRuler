@@ -4,15 +4,20 @@ const Discord = require("discord.js");
 const ytdl = require('ytdl-core');
 
 //client control object
-const client = new Discord.Client();
+const client[0] = new Discord.Client();
+const client2 = new Discord.Client();
 
 //load config.json file
 const config = require("./bot_data/config.json");
 global.prefix = config.prefix; //set global prefix variable
 
-client.on("ready", () => {
+client[0].on("ready", () => {
   console.log('Bot Activated');
-  //client.user.setActivity(`Smart`);
+  client[0].user.setActivity(`--play0`);
+});
+client2.on("ready", () => {
+  console.log('Bot Activated');
+  client.user.setActivity(`--play1`);
 });
 
 //load commands from folder
@@ -94,11 +99,21 @@ function messageControl(message) {
 }
 
 //runs every time a message on server is posted or edited
-client.on("message", async message => {
+client[0].on("message", async message => {
   messageControl(message);
 });
-client.on('messageUpdate', (oldMessage, message) => {
+client[0].on('messageUpdate', (oldMessage, message) => {
   messageControl(message);
 });
 
-client.login(config.token);
+client[0].login(config.token2);
+
+//runs every time a message on server is posted or edited
+client2.on("message", async message => {
+  messageControl(message);
+});
+client2.on('messageUpdate', (oldMessage, message) => {
+  messageControl(message);
+});
+
+client2.login(config.token3);
