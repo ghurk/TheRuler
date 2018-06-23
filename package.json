@@ -12,9 +12,11 @@
   },
   "devDependencies": {
   },
-  "buildpacks":{
-    "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
-  },
+  "buildpacks": [
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node bot.js"
