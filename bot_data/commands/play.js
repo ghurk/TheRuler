@@ -20,12 +20,12 @@ exports.func = function( message ) {
     */
 
     //Play streams using ytdl-core
-    const streamOptions = { seek: 0, volume: 1 };
+    //const streamOptions = { seek: 0, volume: 1 };
     target.join()
     .then( connection => {
       const ytdl = require('ytdl-core');
       const stream = ytdl( 'https://www.youtube.com/watch?v=LsBrT6vbQa8', {filter:'audioonly'} );
-      const dispatcher = connection.playStream( stream, streamOptions );
+      const dispatcher = connection.playStream( stream );
     })
     .catch( console.error );
 
