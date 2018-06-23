@@ -24,24 +24,23 @@ exports.func = function( message ) {
   } 
 
   //create string of thrown numbers
-  var result = '';
-  var average = 0;
+  var resultString = '';
   var total = 0;
   for( i=0; i<throws; i++ ) {
-    result += Math.floor((Math.random()*dice)+1);
-    //add result to info variables
-    average += result/throws;
+    var result = Math.floor((Math.random()*dice)+1);
+    resultString += result;
     total += result;
     //add ', ' between throws and ' ' after
     if ( i+1 < throws ) {
-      result += ', ';
+      resultString += ', ';
     }
     else {
-      result += ' ';
+      resultString += ' ';
     }
   }
+  var average = total/throws;
 
   //delete request message and send results
   message.delete().catch(O_o=>{});
-  message.channel.send(`${message.author} rolled ${result}on ${throws}d${dice} [ avg:${average}, total:${total} ]`);
+  message.channel.send(`${message.author} rolled ${resultString}on ${throws}d${dice} [ avg: ${average}, total: ${total} ]`);
 };
