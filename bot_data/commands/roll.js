@@ -43,7 +43,7 @@ exports.func = function( message ) {
       resultString += ',';
     }
   }
-  var average = total/throws;
+  var average = Math.round(total/throws*10)/10;
 
   var details = '';
   if ( throws > 1 ) {
