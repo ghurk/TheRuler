@@ -3,22 +3,12 @@ const Discord = require("discord.js");
 //load youtube library
 const ytdl = require('ytdl-core');
 
-//client control object
-const client = new Discord.Client();
-const client2 = new Discord.Client();
-
 //load config.json file
 const config = require("./bot_data/config.json");
-global.prefix = config.prefix; //set global prefix variable
+//set prefix as global variable
+global.prefix = config.prefix;
 
-client.on("ready", () => {
-  console.log('Bot Activated');
-  client.user.setActivity(`--play0`);
-});
-client2.on("ready", () => {
-  console.log('Bot Activated');
-  client.user.setActivity(`--play1`);
-});
+
 
 //load commands from folder
 var commands = [];
@@ -98,22 +88,33 @@ function messageControl(message) {
   }
 }
 
-//runs every time a message on server is posted or edited
-client.on("message", async message => {
-  messageControl(message);
-});
-client.on('messageUpdate', (oldMessage, message) => {
-  messageControl(message);
+
+//client control object
+var clients = [];
+var tokens = [];
+tokens.push(config.token2);
+tokens.push(config.token3);
+
+//initialize a bot per token
+tokens.forEach(function(token) {
+  clients.push( new Discord.Client() );
 });
 
-client.login(config.token2);
+//set bot status
+clients.forEach(function(client,index) {
 
-//runs every time a message on server is posted or edited
-client2.on("message", async message => {
-  messageControl(message);
-});
-client2.on('messageUpdate', (oldMessage, message) => {
-  messageControl(message);
-});
+  console.log(index);
 
-client2.login(config.token3);
+  client.on("ready", () => {
+    console.log(`Bot ${index} Activated`);
+    client.user.setActivity(`${global.prefix}play${index}`);
+  });
+  client.on("message", async message => {
+    messageControl(message);
+  });
+  client.on('messageUpdate', (oldMessage, message) => {
+    messageControl(message);
+  });
+
+  client.login(tokens[index]);
+});
