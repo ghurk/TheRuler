@@ -8,23 +8,14 @@ exports.func = function( message ) {
   var target = message.member.voiceChannel;
 
   if ( target !== undefined ) {
-
-
-    /*
-    //console.log('nothing');
-    // Join a voice channel
-    target.join()
-    .then( connection => message.channel.send(`connected`) )
-    .catch( console.error );
-    //const dispatcher = connection.playFile('./audiofile.mp3');
-    */
+    
 
     //Play streams using ytdl-core
     var streamOptions = { seek: 0, volume: 1 };
     target.join()
     .then( connection => {
       const ytdl = require('ytdl-core');
-      var stream = ytdl( 'https://www.youtube.com/watch?v=XAWgeLF9EVQ', {filter:'audioonly'} );
+      var stream = ytdl( 'https://www.youtube.com/watch?v=EFSrMwp3ydM', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions ); //connection.playStream( stream, streamOptions );
     })
     .catch( console.error );
