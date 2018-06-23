@@ -6,11 +6,19 @@ exports.func = function( message ) {
 
   var num1 = string.match(/roll(\d+)/); //get multiplier
   var num2 = string.match(/(?:d|k|x|\*)(\d+)/); //get dice
-  if ( num2 === null ) return; //quit if no dice is specified
+  if ( num1 === null && num2 === null ) return; //quit if no number is specified
 
-  var throws = 1; //default throws
-  if ( num1 !== null ) throws = Number(num1[1]); //set from message if found
-  var dice = Number(num2[1]); //set from message
+  //case 1: roll d{} or roll {}d{}
+  if ( num2 !== null ) {
+    var throws = 1; //default throws
+    if ( num1 !== null ) throws = Number(num1[1]); //set from message if found
+    var dice = Number(num2[1]); //set from message
+  }
+  //case 2: roll {}
+  else {
+    var throws = 1; //default throws
+    var dice = Number(num1[1]); //set from message
+  }
 
   //check if throw is lesser than 1d2
   if ( throws < 1 || dice < 2 ) {
@@ -30,22 +38,19 @@ exports.func = function( message ) {
     var result = Math.floor((Math.random()*dice)+1);
     resultString += result;
     total += result;
-    //add ', ' between throws and ' ' after
+    //add ',' between throws
     if ( i+1 < throws ) {
-      resultString += ', ';
-    }
-    else {
-      resultString += ' ';
+      resultString += ',';
     }
   }
   var average = total/throws;
 
   var details = '';
   if ( throws > 1 ) {
-    details = `[ avg: ${average}, total: ${total} ]`;
+    details = `avg:${average} total:${total}`;
   }
 
   //delete request message and send results
   message.delete().catch(O_o=>{});
-  message.channel.send(`${message.author} rolled\`\`\`prolog\n${resultString}on '${throws}d${dice}' ${details}\`\`\``);
+  message.channel.send(`${message.author} rolled\`\`\`prolog\n${resultString} on '${throws}d${dice}' ${details}\`\`\``);
 };
