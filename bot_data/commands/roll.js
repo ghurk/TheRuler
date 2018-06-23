@@ -25,6 +25,8 @@ exports.func = function( message ) {
 
   //create string of thrown numbers
   var result = '';
+  var average = 0;
+  var total = 0;
   for( i=0; i<throws; i++ ) {
     result += Math.floor((Math.random()*dice)+1);
     //add ', ' between throws and ' ' after
@@ -34,9 +36,11 @@ exports.func = function( message ) {
     else {
       result += ' ';
     }
+    average += result/throws;
+    total += result;
   }
 
   //delete request message and send results
   message.delete().catch(O_o=>{});
-  message.channel.send(`${message.author} rolled ${result}on ${throws}d${dice}`);
+  message.channel.send(`${message.author} rolled ${result}on ${throws}d${dice} [ avg:${average}, total:${total} ]`);
 };
