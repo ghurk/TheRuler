@@ -8,11 +8,12 @@ exports.func = function( message ) {
   var target = message.member.voiceChannel;
 
   if ( target !== undefined ) {
-
+    /*
     //leave existing voice channel
     if ( guild.me.voiceChannel !== undefined ) {
       guild.me.voiceChannelID.leave();
     }
+    */
 
     //Play streams using ytdl-core
     var streamOptions = { seek: 0, volume: 1 };
@@ -20,7 +21,7 @@ exports.func = function( message ) {
     .then( connection => {
       const ytdl = require('ytdl-core');
       var stream = ytdl( 'https://www.youtube.com/watch?v=EFSrMwp3ydM', {filter:'audioonly'} );
-      var dispatcher = connection.playStream( stream, streamOptions ); //connection.playStream( stream, streamOptions );
+      var dispatcher = connection.playStream( stream, streamOptions );
     })
     .catch( console.error );
 
