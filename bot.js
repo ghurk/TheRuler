@@ -1,5 +1,7 @@
 //load discord.js library
 const Discord = require("discord.js");
+//load youtube library
+const ytdl = require('ytdl-core');
 
 //client control object
 const client = new Discord.Client();
