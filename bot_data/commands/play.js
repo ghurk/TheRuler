@@ -10,33 +10,32 @@ exports.func = function( message ) {
   if ( target !== undefined ) {
 
 
-
+    /*
     //console.log('nothing');
     // Join a voice channel
     target.join()
     .then( connection => message.channel.send(`connected`) )
     .catch( console.error );
     //const dispatcher = connection.playFile('./audiofile.mp3');
+    */
 
-
-    /*
-    // Play streams using ytdl-core
-    const ytdl = require('ytdl-core');
+    //Play streams using ytdl-core
     const streamOptions = { seek: 0, volume: 1 };
     target.join()
-    .then(connection => {
-      const stream = ytdl('https://www.youtube.com/watch?v=XAWgeLF9EVQ', {filter:'audioonly'});
-      const dispatcher = connection.playStream(stream, streamOptions);
+    .then( connection => {
+      const stream = ytdl( 'https://www.youtube.com/watch?v=XAWgeLF9EVQ', {filter:'audioonly'} );
+      const dispatcher = connection.playStream( stream, streamOptions );
     })
-    .catch(console.error);
-    */
+    .catch( console.error );
+
+
   }
   else {
-    //console.log('VC');
+    message.channel.send(`You are not in any voice channel.`);
   }
 
   //delete request message
   message.delete().catch(O_o=>{});
   //do something wtfffffffffffffff
-  message.channel.send(`${url} //// ${target}`);
+  message.channel.send(`${url} // ${target}`);
 };
