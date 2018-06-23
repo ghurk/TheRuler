@@ -25,7 +25,7 @@ exports.func = function( message ) {
     .then( connection => {
       const ytdl = require('ytdl-core');
       const stream = ytdl( 'https://www.youtube.com/watch?v=XAWgeLF9EVQ', {filter:'audioonly'} );
-      const dispatcher = connection.play( stream ); //connection.playStream( stream, streamOptions );
+      const dispatcher = connection.playStream( stream, streamOptions ); //connection.playStream( stream, streamOptions );
     })
     .catch( console.error );
 
