@@ -23,6 +23,7 @@ exports.func = function( message ) {
     const streamOptions = { seek: 0, volume: 1 };
     target.join()
     .then( connection => {
+      const ytdl = require('ytdl-core');
       const stream = ytdl( 'https://www.youtube.com/watch?v=XAWgeLF9EVQ', {filter:'audioonly'} );
       const dispatcher = connection.playStream( stream, streamOptions );
     })
