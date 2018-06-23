@@ -29,6 +29,9 @@ exports.func = function( message ) {
   var total = 0;
   for( i=0; i<throws; i++ ) {
     result += Math.floor((Math.random()*dice)+1);
+    //add result to info variables
+    average += result/throws;
+    total += result;
     //add ', ' between throws and ' ' after
     if ( i+1 < throws ) {
       result += ', ';
@@ -36,8 +39,6 @@ exports.func = function( message ) {
     else {
       result += ' ';
     }
-    average += result/throws;
-    total += result;
   }
 
   //delete request message and send results
