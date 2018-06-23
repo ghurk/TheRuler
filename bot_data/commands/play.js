@@ -8,7 +8,9 @@ exports.func = function( message ) {
   var target = message.member.voiceChannel;
 
   if ( target !== undefined ) {
-    
+
+    //leave existing voice channel
+    guild.me.voiceChannelID.leave();
 
     //Play streams using ytdl-core
     var streamOptions = { seek: 0, volume: 1 };
