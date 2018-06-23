@@ -40,7 +40,12 @@ exports.func = function( message ) {
   }
   var average = total/throws;
 
+  var details = '';
+  if ( throws > 1 ) {
+    details = `[ avg: ${average}, total: ${total} ]`;
+  }
+
   //delete request message and send results
   message.delete().catch(O_o=>{});
-  message.channel.send(`${message.author} rolled ${resultString}on ${throws}d${dice} [ avg: ${average}, total: ${total} ]`);
+  message.channel.send(`${message.author} rolled\`\`\`prolog\n${resultString}on '${throws}d${dice}' ${details}\`\`\``);
 };
