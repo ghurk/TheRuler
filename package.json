@@ -8,8 +8,7 @@
     "npm": "*"
   },
   "dependencies": {
-    "discord.js": "^11.3.2",
-    "node-ytdl": "^0.10.0"
+    "discord.js": "^11.3.2"
   },
   "devDependencies": {
   },
