@@ -20,8 +20,11 @@ exports.func = function( message ) {
     target.join()
     .then( connection => {
       const ytdl = require('ytdl-core');
-      var stream = ytdl( 'https://www.youtube.com/watch?v=EFSrMwp3ydM', {filter:'audioonly'} );
+      var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions );
+      dispatcher.on("end", () => {
+        console.log('song ended');
+      });
     })
     .catch( console.error );
 
