@@ -15,15 +15,25 @@ exports.func = function( message ) {
     }
     */
 
-    //Play streams using ytdl-core
-    var streamOptions = { seek: 0, volume: 1 };
-    target.join()
-    .then( connection => {
+     function startPlay() {
       const ytdl = require('ytdl-core');
       var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions );
       dispatcher.on("end", () => {
         console.log('song ended');
+        startPlay();
+      });
+    }
+
+    //Play streams using ytdl-core
+    target.join()
+    .then( connection => {
+      const ytdl = require('ytdl-core');
+      var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
+      var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
+      dispatcher.on("end", () => {
+        console.log('song ended');
+        startPlay();
       });
     })
     .catch( console.error );
