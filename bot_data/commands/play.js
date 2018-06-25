@@ -2,7 +2,7 @@ exports.command = 'play';
 exports.description = ``;
 exports.func = function( message ) {
   
-  //load youtube library
+  //load youtube library and stuff
   const ytdl = require('ytdl-core');
   var stream;
 
@@ -10,6 +10,10 @@ exports.func = function( message ) {
   var url = string.slice(6);
 
   var target = message.member.voiceChannel;
+  
+  //create playlist
+  var playlist = [];
+  playlist.push('https://www.youtube.com/watch?v=1X4YQEgWJsw');
 
   if ( target !== undefined ) {
     /*
@@ -21,7 +25,7 @@ exports.func = function( message ) {
 
      function startPlay(connection) {
       console.log('new function started');
-      stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
+      stream = ytdl( playlist[ Math.floor(Math.random()*pplaylist.length) ], {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
       dispatcher.on("end", () => {
@@ -33,7 +37,7 @@ exports.func = function( message ) {
     //Play streams using ytdl-core
     target.join()
     .then( connection => {
-      stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
+      stream = ytdl( playlist[ Math.floor(Math.random()*pplaylist.length) ], {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       dispatcher.on("end", () => {
         console.log('song ended');
