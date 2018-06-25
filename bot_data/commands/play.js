@@ -22,7 +22,7 @@ exports.func = function( message ) {
      function startPlay(connection) {
       console.log('new function started');
       stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
-      var dispatcher = connection.playStream( stream, streamOptions );
+      var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
       dispatcher.on("end", () => {
         console.log('song ended');
