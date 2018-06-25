@@ -19,14 +19,14 @@ exports.func = function( message ) {
     }
     */
 
-     function startPlay() {
+     function startPlay(connection) {
       console.log('new function started');
       stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions );
       console.log('new stream started');
       dispatcher.on("end", () => {
         console.log('song ended');
-        startPlay();
+        startPlay(connection);
       });
     }
 
@@ -37,7 +37,7 @@ exports.func = function( message ) {
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       dispatcher.on("end", () => {
         console.log('song ended');
-        startPlay();
+        startPlay(connection);
       });
     })
     .catch( console.error );
