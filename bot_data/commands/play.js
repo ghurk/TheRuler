@@ -19,8 +19,10 @@ exports.func = function( message ) {
     */
 
      function startPlay() {
+      console.log('new function started');
       var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions );
+      console.log('new stream started');
       dispatcher.on("end", () => {
         console.log('song ended');
         startPlay();
