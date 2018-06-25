@@ -1,7 +1,5 @@
 //load discord.js library
 const Discord = require("discord.js");
-//load youtube library
-const ytdl = require('ytdl-core');
 
 //load config.json file
 const config = require("./bot_data/config.json");
