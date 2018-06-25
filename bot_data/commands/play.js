@@ -1,6 +1,9 @@
 exports.command = 'play';
 exports.description = ``;
 exports.func = function( message ) {
+  
+  //load youtube library
+  const ytdl = require('ytdl-core');
 
   var string = message.content.toLowerCase().replace(/\s/g,''); //remove capitals and whitespace
   var url = string.slice(6);
