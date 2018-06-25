@@ -4,6 +4,7 @@ exports.func = function( message ) {
   
   //load youtube library
   const ytdl = require('ytdl-core');
+  var stream;
 
   var string = message.content.toLowerCase().replace(/\s/g,''); //remove capitals and whitespace
   var url = string.slice(6);
@@ -20,7 +21,7 @@ exports.func = function( message ) {
 
      function startPlay() {
       console.log('new function started');
-      var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
+      stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, streamOptions );
       console.log('new stream started');
       dispatcher.on("end", () => {
@@ -32,7 +33,7 @@ exports.func = function( message ) {
     //Play streams using ytdl-core
     target.join()
     .then( connection => {
-      var stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
+      stream = ytdl( 'https://www.youtube.com/watch?v=1X4YQEgWJsw', {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       dispatcher.on("end", () => {
         console.log('song ended');
