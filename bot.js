@@ -1,5 +1,7 @@
 //load discord.js library
 const Discord = require("discord.js");
+//load youtube library and stuff
+const ytdl = require('ytdl-core');
 
 //load config.json file
 const config = require("./bot_data/config.json");
@@ -87,6 +89,12 @@ function messageControl(message) {
 }
 
 
+
+
+
+    
+    
+    
 //client control object
 var clients = [];
 var tokens = [];
@@ -103,8 +111,10 @@ clients.forEach( function(client,index) {
   
   //initialize playlist array
   client.playlist = [];
+  client.playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
+  client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
   //initialize connection reference
-  //client.connection;
+  client.connection;
 
   client.on("ready", () => {
     console.log(`Bot ${index} Activated`);
@@ -115,7 +125,11 @@ clients.forEach( function(client,index) {
       
       if ( message.member.voiceChannel !== undefined ) {
         message.member.voiceChannel.join() //join users voiceChannel
-        .then( connection => { client.connection = connection; } )
+        .then( connection => {
+          client.connection = connection;
+          var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
+          var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+        })
         .catch( console.error );
       }
       
