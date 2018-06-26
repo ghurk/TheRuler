@@ -43,7 +43,6 @@ exports.func = function( message ) {
     target.join()
     .then( connection => {
         playerStart(connection);
-      });
     })
     .catch( console.error );
 
