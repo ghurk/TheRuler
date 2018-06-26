@@ -4,7 +4,13 @@ exports.func = function( message ) {
   
   //load youtube library and stuff
   const ytdl = require('ytdl-core');
+  var dispatcher;
 
+  dispatcher.on("end", () => {
+    console.log('song ended');
+    playerStart( connection );
+  });
+  
   //var string = message.content.toLowerCase().replace(/\s/g,''); //remove capitals and whitespace
   //var url = string.slice(6);
 
@@ -22,14 +28,11 @@ exports.func = function( message ) {
     //start stream
     var random = Math.floor(Math.random()*playlist.length);
     var stream = ytdl(playlist[random],{filter:'audioonly'});
-    var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
+    dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log(stream);
     console.log('new stream started');
     //play new stream on stream end
-    dispatcher.on("end", () => {
-      console.log('song ended');
-      playerStart( connection );
-    });
+    
   }
 
   //if author.voiceChannel is set
