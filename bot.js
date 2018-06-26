@@ -115,9 +115,18 @@ clients.forEach( function(client,index) {
   client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
   //initialize connection reference
   client.connection;
-  
-  client.dispatcher;
+  //store dispatcher
+  //client.dispatcher;
 
+  function play() {
+    var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
+    var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+    dispatcher.on("end", () => {
+      console.log('song ended');
+      play();
+    });
+  }
+  
 
   client.on("ready", () => {
     console.log(`Bot ${index} Activated`);
@@ -130,8 +139,7 @@ clients.forEach( function(client,index) {
         message.member.voiceChannel.join() //join users voiceChannel
         .then( connection => {
           client.connection = connection;
-          var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
-          client.dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+          play();
         })
         .catch( console.error );
       }
