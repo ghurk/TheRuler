@@ -22,6 +22,7 @@ exports.func = function( message ) {
     //start stream
     var random = Math.floor(Math.random()*playlist.length);
     var stream = ytdl(playlist[random],{filter:'audioonly'});
+    console.log( ytdl.getInfo(playlist[random]) );
     var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log('new stream started');
     
