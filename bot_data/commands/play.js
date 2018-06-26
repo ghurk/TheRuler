@@ -25,10 +25,18 @@ exports.func = function( message ) {
     var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log('new stream started');
     
-    var streamInfo = ytdl.getInfo(playlist[random]);
     stream.on("info", (info) => {
       console.log( info.title );
     });
+    
+    var streamName;
+    ytdl.getInfo( playlist[random], {downloadURL: false},
+      function(err, info) {
+        if (err) throw err;
+          streamName = info.title; //you can store it here
+        }
+    );
+    console.log( streamName );
     
     stream.on("end", () => {
       console.log('stream end');
