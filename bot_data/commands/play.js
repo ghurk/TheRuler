@@ -4,12 +4,6 @@ exports.func = function( message ) {
   
   //load youtube library and stuff
   const ytdl = require('ytdl-core');
-  var dispatcher;
-
-  dispatcher.on("end", () => {
-    console.log('song ended');
-    playerStart( connection );
-  });
   
   //var string = message.content.toLowerCase().replace(/\s/g,''); //remove capitals and whitespace
   //var url = string.slice(6);
@@ -24,14 +18,25 @@ exports.func = function( message ) {
   playlist.push('https://www.youtube.com/watch?v=u0ow4tGgZWk'); //YK - torukia
   
   function playerStart(connection) {
-    console.log('new function started');
+    
     //start stream
     var random = Math.floor(Math.random()*playlist.length);
     var stream = ytdl(playlist[random],{filter:'audioonly'});
-    dispatcher = connection.playStream( stream, {seek:0,volume:1} );
-    console.log(stream);
+    var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log('new stream started');
+    
+    stream.on("end", () => {
+      console.log('stream end');
+    });
+    stream.on("close", () => {
+      console.log('stream close');
+    });
+    
     //play new stream on stream end
+    dispatcher.on("end", () => {
+      console.log('song ended');
+      playerStart( connection );
+    });
     
   }
 
