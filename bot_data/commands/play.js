@@ -27,7 +27,7 @@ exports.func = function( message ) {
     
     var streamInfo = ytdl.getInfo(playlist[random]);
     stream.on("info", (info) => {
-      console.log( info );
+      console.log( info.title );
     });
     
     stream.on("end", () => {
