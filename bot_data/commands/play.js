@@ -26,8 +26,8 @@ exports.func = function( message ) {
     console.log('new stream started');
     
     var streamInfo = ytdl.getInfo(playlist[random]);
-    streamInfo.on("info", () => {
-      console.log('received info');
+    streamInfo.on("info", (info) => {
+      console.log( info );
     });
     
     stream.on("end", () => {
