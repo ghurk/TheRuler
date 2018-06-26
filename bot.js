@@ -111,11 +111,11 @@ clients.forEach( function(client,index) {
     client.user.setActivity(`${global.prefix}play${index}`);
   });
   client.on("message", async message => {
-    if ( message.content.toLowerCase().startsWith( global.prefix+'player' ) ) {
+    if ( message.content.toLowerCase().startsWith( global.prefix+'player'+index ) ) {
       
       if ( message.member.voiceChannel !== undefined ) {
         message.member.voiceChannel.join() //join users voiceChannel
-        .then( connection => { clients[0].connection = connection; } )
+        .then( connection => { client.connection = connection; } )
         .catch( console.error );
       }
       
