@@ -29,7 +29,11 @@ exports.func = function( message ) {
 
     function playerStart(connection) {
       console.log('new function started');
-      stream = ytdl( playlist[ Math.floor(Math.random()*playlist.length) ], {filter:'audioonly'} );
+      
+      var random = Math.floor(Math.random()*playlist.length);
+      stream = ytdl( playlist[random], {filter:'audioonly'} );
+      console.log(random);
+      
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
       //play new song on end
@@ -42,10 +46,13 @@ exports.func = function( message ) {
     //Play streams using ytdl-core
     target.join()
     .then( connection => {
+     
+      console.log('new function started');
       
+      var random = Math.floor(Math.random()*playlist.length);
+      stream = ytdl( playlist[random], {filter:'audioonly'} );
+      console.log(random);
       
-        console.log('new function started');
-      stream = ytdl( playlist[ Math.floor(Math.random()*playlist.length) ], {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
       //play new song on end
