@@ -13,8 +13,12 @@ exports.func = function( message ) {
   
   //create playlist
   var playlist = [];
-  playlist.push('https://www.youtube.com/watch?v=1X4YQEgWJsw');
+  playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
+  playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
+  playlist.push('https://www.youtube.com/watch?v=AIbzZPePNKg'); //O - player
+  playlist.push('https://www.youtube.com/watch?v=u0ow4tGgZWk'); //YK - torukia
 
+  //if author.voiceChannel is set
   if ( target !== undefined ) {
     /*
     //leave existing voice channel
@@ -23,11 +27,12 @@ exports.func = function( message ) {
     }
     */
 
-     function startPlay(connection) {
+    function playerStart(connection) {
       console.log('new function started');
       stream = ytdl( playlist[ Math.floor(Math.random()*playlist.length) ], {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
+      //play new song on end
       dispatcher.on("end", () => {
         console.log('song ended');
         startPlay(connection);
@@ -37,11 +42,7 @@ exports.func = function( message ) {
     //Play streams using ytdl-core
     target.join()
     .then( connection => {
-      stream = ytdl( playlist[ Math.floor(Math.random()*playlist.length) ], {filter:'audioonly'} );
-      var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
-      dispatcher.on("end", () => {
-        console.log('song ended');
-        startPlay(connection);
+        playerStart(connection);
       });
     })
     .catch( console.error );
