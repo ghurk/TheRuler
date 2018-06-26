@@ -11,17 +11,17 @@ exports.func = function( message ) {
   var target = message.member.voiceChannel;
   
   //create playlist
-  //var playlist = [];
-  clients[0].playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
-  clients[0].playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
-  clients[0].playlist.push('https://www.youtube.com/watch?v=AIbzZPePNKg'); //O - player
-  clients[0].playlist.push('https://www.youtube.com/watch?v=u0ow4tGgZWk'); //YK - torukia
+  var playlist = [];
+  playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
+  playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
+  playlist.push('https://www.youtube.com/watch?v=AIbzZPePNKg'); //O - player
+  playlist.push('https://www.youtube.com/watch?v=u0ow4tGgZWk'); //YK - torukia
   
   function playerStart(connection) {
     
     //start stream
     var random = Math.floor(Math.random()*playlist.length);
-    var stream = ytdl( clients[0].playlist[random], {filter:'audioonly'} );
+    var stream = ytdl( playlist[random], {filter:'audioonly'} );
     var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log('new stream started');
     
@@ -30,7 +30,7 @@ exports.func = function( message ) {
     });
     
     var streamName;
-    ytdl.getInfo( clients[0].playlist[random], {downloadURL: false},
+    ytdl.getInfo( playlist[random], {downloadURL: false},
       function(err, info) {
         if (err) throw err;
           streamName = info.title; //you can store it here
