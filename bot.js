@@ -90,7 +90,7 @@ function messageControl(message) {
 //client control object
 var clients = [];
 var tokens = [];
-tokens.push(config.token2);
+//tokens.push(config.token2);
 tokens.push(config.token3);
 
 //initialize a bot per token
