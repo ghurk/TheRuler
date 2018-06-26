@@ -98,10 +98,13 @@ tokens.forEach(function(token) {
   clients.push( new Discord.Client() );
 });
 
-//set bot status
-clients.forEach(function(client,index) {
-
-  console.log(index);
+//create bot functions
+clients.forEach( function(client,index) {
+  
+  //initialize playlist array
+  client.playlist = [];
+  //initialize connection reference
+  //client.connection;
 
   client.on("ready", () => {
     console.log(`Bot ${index} Activated`);
