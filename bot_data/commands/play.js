@@ -4,7 +4,6 @@ exports.func = function( message ) {
   
   //load youtube library and stuff
   const ytdl = require('ytdl-core');
-  var stream;
 
   var string = message.content.toLowerCase().replace(/\s/g,''); //remove capitals and whitespace
   var url = string.slice(6);
@@ -31,37 +30,20 @@ exports.func = function( message ) {
       console.log('new function started');
       
       var random = Math.floor(Math.random()*playlist.length);
-      stream = ytdl( playlist[random], {filter:'audioonly'} );
-      console.log(random);
-      
+      var stream = ytdl( playlist[random], {filter:'audioonly'} );
       var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
       console.log('new stream started');
       //play new song on end
       dispatcher.on("end", () => {
         console.log('song ended');
-        startPlay(connection);
+        playerStart( connection );
       });
     }
 
     //Play streams using ytdl-core
     target.join()
     .then( connection => {
-     
-      console.log('new function started');
-      
-      var random = Math.floor(Math.random()*playlist.length);
-      stream = ytdl( playlist[random], {filter:'audioonly'} );
-      console.log(random);
-      
-      var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
-      console.log('new stream started');
-      //play new song on end
-      dispatcher.on("end", () => {
-        console.log('song ended');
-        startPlay(connection);
-      });
-      
-      
+        playerStart( connection );
     })
     .catch( console.error );
 
@@ -71,8 +53,4 @@ exports.func = function( message ) {
     message.channel.send(`You are not in any voice channel.`);
   }
 
-  //delete request message
-  message.delete().catch(O_o=>{});
-  //do something wtfffffffffffffff
-  message.channel.send(`${url} // ${target}`);
 };
