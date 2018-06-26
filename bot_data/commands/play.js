@@ -21,11 +21,12 @@ exports.func = function( message ) {
     console.log('new function started');
     //start stream
     var random = Math.floor(Math.random()*playlist.length);
-    var stream = connection.playStream( ytdl(playlist[random],{filter:'audioonly'}), {seek:0,volume:1} );
+    var stream = ytdl(playlist[random],{filter:'audioonly'});
+    var dispatcher = connection.playStream( stream, {seek:0,volume:1} );
     console.log(stream);
     console.log('new stream started');
     //play new stream on stream end
-    stream.on("end", () => {
+    dispatcher.on("end", () => {
       console.log('song ended');
       playerStart( connection );
     });
