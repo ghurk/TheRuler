@@ -115,10 +115,16 @@ clients.forEach( function(client,index) {
   client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
   //initialize connection reference
   client.connection;
+  //initialize stream dispatcher reference
+  client.dispatcher;
+  
+  client.dispatcher.on("end", () => {
+    console.log('song ended');
+  });
 
   client.on("ready", () => {
     console.log(`Bot ${index} Activated`);
-    client.user.setActivity(`${global.prefix}play${index}`);
+    client.user.setActivity(`${global.prefix}player${index}`);
   });
   client.on("message", async message => {
     if ( message.content.toLowerCase().startsWith( global.prefix+'player'+index ) ) {
@@ -128,17 +134,13 @@ clients.forEach( function(client,index) {
         .then( connection => {
           client.connection = connection;
           var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
-          var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+          client.dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
         })
         .catch( console.error );
       }
       
     }
   });
-  /*
-  client.on('messageUpdate', (oldMessage, message) => {
-  });
-  */
 
   client.login(tokens[index]);
 });
