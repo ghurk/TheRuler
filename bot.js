@@ -115,12 +115,7 @@ clients.forEach( function(client,index) {
   client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
   //initialize connection reference
   client.connection;
-  //initialize stream dispatcher reference
-  client.dispatcher;
-  
-  client.dispatcher.on("end", () => {
-    console.log('song ended');
-  });
+
 
   client.on("ready", () => {
     console.log(`Bot ${index} Activated`);
@@ -134,7 +129,7 @@ clients.forEach( function(client,index) {
         .then( connection => {
           client.connection = connection;
           var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
-          client.dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+          var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
         })
         .catch( console.error );
       }
