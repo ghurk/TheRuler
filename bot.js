@@ -111,11 +111,20 @@ clients.forEach( function(client,index) {
     client.user.setActivity(`${global.prefix}play${index}`);
   });
   client.on("message", async message => {
-    messageControl(message);
+    if ( message.content.toLowerCase().startsWith( global.prefix+'player'+index ) ) {
+      
+      if ( message.member.voiceChannel !== undefined ) {
+        target.join() //join users voiceChannel
+        .then( connection => { /*playerStart(connection);*/ } )
+        .catch( console.error );
+      }
+      
+    }
   });
+  /*
   client.on('messageUpdate', (oldMessage, message) => {
-    messageControl(message);
   });
+  */
 
   client.login(tokens[index]);
 });
