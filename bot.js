@@ -72,37 +72,42 @@ clients.forEach( function(client,index) {
           message.channel.send(`You are not in any voice channel.`);
         }
       }
+        
       //--player add ... to playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
-        //get url
+        //get url from message
         var url = message.content.toLowerCase().match(/add (.*)?/);
         if ( url === null ) {
           message.channel.send(`Url not specified.`);
         }
-        //load url info if exists
-        message.channel.send( url[1] );
-          
+        //load url info and add to playlist
         var urlCheck = ytdl.validateURL( url[1] );
-        console.log( urlCheck );
-        
-        ytdl.getInfo( url[1], {downloadURL: false},
-          function( err, info ) {
-            if (err) throw err;
-            console.log(info);
-          }
-        );
+        if ( urlCheck === false ) {
+          message.channel.send(`Invalid URL.`);
+        }
+        else {
+          ytdl.getInfo( url[1], {downloadURL: false},
+            function( err, info ) {
+              client.playlist.push( url[1] );
+              console.log( info );
+            }
+          );
+        }
       }
+        
       //--player remove ... from playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
         //regex find anything after remove {index/all}
         //if result = all => playlist.clear(); else playlist.remove(index)
       }
+        
       //--player clear playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" clear") ) {
         //clear playlist array
         client.playlist.length = 0;
         message.channel.send(`Playlist cleared.`);
       }
+        
       //--player end
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
         //player leave room and stop stream
