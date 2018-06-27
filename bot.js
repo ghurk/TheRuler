@@ -35,7 +35,7 @@ clients.forEach( function(client,index) {
   //store dispatcher
   //client.dispatcher;
 
-  function play() {
+  function play( message ) {
     if ( client.playlist.length < 1 ) {
       message.channel.send(`Playlist is empty.`);
       return;
@@ -65,7 +65,7 @@ clients.forEach( function(client,index) {
           .then( connection => {
             //start playing
             client.connection = connection;
-            play();
+            play( message );
           })
           .catch( console.error );
         }
