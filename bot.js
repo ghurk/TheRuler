@@ -91,14 +91,12 @@ clients.forEach( function(client,index) {
         }
         console.log('url valid');///////////////////
         //load url info and add to playlist
-        ytdl.getInfo( url[1], {downloadURL: false},
-          function( err, info ) {
-            console.log( err );
-            console.log( info );
-            client.playlist.push( url[1] );
-            console.log( client.playlist );
-          }
-        );
+        ytdl.getInfo( url[1], {downloadURL:false}, function(err,info) {
+          console.log( err );
+          console.log( info );
+          client.playlist.push( url[1] );
+          console.log( client.playlist );
+        });
         console.log('url added');///////////////////////
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
