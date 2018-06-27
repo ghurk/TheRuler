@@ -36,6 +36,10 @@ clients.forEach( function(client,index) {
   //client.dispatcher;
 
   function play() {
+    if ( client.playlist.length < 1 ) {
+      message.channel.send(`Playlist is empty.`);
+      return;
+    }
     var track = Math.floor(Math.random()*client.playlist.length);
     var stream = ytdl( client.playlist[track], {filter:'audioonly'} );
     var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
@@ -77,6 +81,11 @@ clients.forEach( function(client,index) {
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
         //regex find anything after remove {index/all}
         //if result = all => playlist.clear(); else playlist.remove(index)
+      }
+      //--player clear playlist
+      else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" clear") ) {
+        //clear playlist array
+        client.playlist.length = 0;
       }
       //--player end
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
