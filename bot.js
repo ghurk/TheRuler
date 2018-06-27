@@ -29,7 +29,7 @@ clients.forEach( function(client,index) {
 
   function play( message ) {
     if ( client.playlist.length < 1 ) {
-      message.channel.send(`\`\`\`Playlist is empty.\`\`\``);
+      message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
     }
     var track = Math.floor(Math.random()*client.playlist.length);
@@ -66,7 +66,7 @@ clients.forEach( function(client,index) {
         .catch();
       }
       else {
-        message.channel.send(`\`\`\`You are not in any voice channel.\`\`\``);
+        message.channel.send(`\`\`\`prolog\nYou Are Not In Any Voice Channel\`\`\``);
       }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,23 +75,23 @@ clients.forEach( function(client,index) {
       //get url from message
       var url = message.content.match(/add (.*)?/);
       if ( url === null ) {
-        message.channel.send(`\`\`\`Url not specified.\`\`\``);
+        message.channel.send(`\`\`\`prolog\nURL Not Specified\`\`\``);
         return;
       }
       //check if url is valid
       var urlCheck = ytdl.validateURL( url[1] );
       if ( urlCheck === false ) {
-        message.channel.send(`\`\`\`Invalid URL.\`\`\``);
+        message.channel.send(`\`\`\`prolog\nInvalid URL\`\`\``);
         return;
       }
       //load url info and add to playlist
       ytdl.getInfo( url[1], {downloadURL:false}, function(err,info) {
         if ( err !== null ) {
-          message.channel.send(`\`\`\`Error loading URL.\`\`\``);
+          message.channel.send(`\`\`\`prolog\nError Loading URL.\`\`\``);
           return;
         }
         client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
-        message.channel.send(`\`\`\`${url[1]} added to playlist.\`\`\`title: \`\`${info.title}\`\` time: \`\`${info.length_seconds} seconds\`\``);
+        message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: \`\`'${info.length_seconds}s'\`\`\``);
       });
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,9 +99,9 @@ clients.forEach( function(client,index) {
     else if ( message.content.startsWith( global.prefix+"player"+index+" list" ) ) {
       var string = "";
       client.playlist.forEach( function(track,index) {
-        string += `[${index}] ${track.url}\ntitle: ${track.title} time: ${track.time} seconds\n`;
+        string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}s'\n`;
       });
-      message.channel.send(`\`\`\`Playlist:\n${string}\`\`\``);
+      message.channel.send(`\`\`\`prolog\nPlaylist:\n${string}\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player remove {index}
@@ -112,7 +112,7 @@ clients.forEach( function(client,index) {
     //--player clear
     else if ( message.content.startsWith( global.prefix+"player"+index+" clear" ) ) {
       client.playlist.length = 0; //empty playlist array
-      message.channel.send(`\`\`\`Playlist cleared.\`\`\``);
+      message.channel.send(`\`\`\`prolog\nPlaylist Cleared\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player end
