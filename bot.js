@@ -63,7 +63,7 @@ clients.forEach( function(client,index) {
           play( message );
         })
         //on fail
-        .catch( message.channel.send(`\`\`\`Connection failed.\`\`\``) );
+        .catch();
       }
       else {
         message.channel.send(`\`\`\`You are not in any voice channel.\`\`\``);
