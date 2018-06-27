@@ -95,9 +95,18 @@ clients.forEach( function(client,index) {
           message.channel.send(`\`\`\`prolog\nError Loading URL.\`\`\``);
           return;
         }
-        client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
-        message.delete();
-        message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: '${info.length_seconds}s'\`\`\``);
+        var time = "";
+        var hours = Math.floor(info.length_seconds/3600);
+        if ( hours > 0 ) { time += hours+"h "; } //display hours
+        var minutes = Math.floor(info.length_seconds/60 -hours*60);
+        if ( minutes > 0 ) { time += minutes+"m "; } //display minutes
+        var seconds = info.length_seconds -minutes*60 -hours*3600;
+        time += seconds+"s"; } //display seconds
+        
+
+        client.playlist.push( { url:url[1], title:info.title, time:time } );
+        message.delete().catch(O_o=>{});
+        message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: '${time}'\`\`\``);
       });
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
