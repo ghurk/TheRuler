@@ -46,14 +46,14 @@ clients.forEach( function(client,index) {
     
   client.on( "message", async message => {
     
-    if ( !message.content.startsWith( global.prefix+'player'+index ) ) {
+    if ( !message.content.startsWith( global.prefix+"player"+index ) ) {
       return;
     }
     //add permissions check here
     
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player play
-    if ( message.content.startsWith(global.prefix+'player'+index+" play") ) {
+    if ( message.content.startsWith( global.prefix+"player"+index+" play" ) ) {
       //join user voice channel
       if ( message.member.voiceChannel !== undefined ) {
         message.member.voiceChannel.join() //join users voiceChannel
@@ -63,7 +63,7 @@ clients.forEach( function(client,index) {
           play( message );
         })
         //on fail
-        .catch( message.channel.send(`\`\`\`Connection failed.\`\`\``); );
+        .catch( message.channel.send(`\`\`\`Connection failed.\`\`\``) );
       }
       else {
         message.channel.send(`\`\`\`You are not in any voice channel.\`\`\``);
@@ -71,7 +71,7 @@ clients.forEach( function(client,index) {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player add {url}
-    else if ( message.content.startsWith(global.prefix+'player'+index+" add") ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" add" ) ) {
       //get url from message
       var url = message.content.match(/add (.*)?/);
       if ( url === null ) {
@@ -96,7 +96,7 @@ clients.forEach( function(client,index) {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player list
-    else if ( message.content.startsWith(global.prefix+'player'+index+" list") ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" list" ) ) {
       var string = "";
       client.playlist.forEach( function(track,index) {
         string += `[${index}] ${track.url}\ntitle: ${track.title} time: ${track.time} seconds\n`;
@@ -105,18 +105,18 @@ clients.forEach( function(client,index) {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player remove {index}
-    else if ( message.content.startsWith(global.prefix+'player'+index+" remove") ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" remove" ) ) {
       //regex find anything after remove {index}
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player clear
-    else if ( message.content.startsWith(global.prefix+'player'+index+" clear") ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" clear" ) ) {
       client.playlist.length = 0; //empty playlist array
       message.channel.send(`\`\`\`Playlist cleared.\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player end
-    else if ( message.content.startsWith(global.prefix+'player'+index+" end") ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" end" ) ) {
       //player leave room and stop stream
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
