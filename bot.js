@@ -52,10 +52,11 @@ clients.forEach( function(client,index) {
     console.log(`Bot ${index} Activated`);
     client.user.setActivity(`${global.prefix}player${index}`);
   });
+    
   client.on("message", async message => {
     if ( message.content.toLowerCase().startsWith( global.prefix+'player'+index ) ) {
       //also add permissions check
-      
+      /////////////////////////////////////////////////////////////////////////////////////////////
       //--player play
       if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" play") ) {
         //join users voice channel
@@ -72,48 +73,51 @@ clients.forEach( function(client,index) {
           message.channel.send(`You are not in any voice channel.`);
         }
       }
-        
-      //--player add ... to playlist
+      /////////////////////////////////////////////////////////////////////////////////////////////
+      //--player add {url}
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
         //get url from message
         var url = message.content.toLowerCase().match(/add (.*)?/);
         if ( url === null ) {
           message.channel.send(`Url not specified.`);
+          return;
         }
-        //load url info and add to playlist
+        console.log('url found');///////////////////
+        //check if url is valid
         var urlCheck = ytdl.validateURL( url[1] );
         if ( urlCheck === false ) {
           message.channel.send(`Invalid URL.`);
+          return;
         }
-        else {
-          ytdl.getInfo( url[1], {downloadURL: false},
-            function( err, info ) {
-              console.log( info.title );
-              client.playlist.push( url[1] );
-              console.log( client.playlist );
-            }
-          );
-        }
+        console.log('url valid');///////////////////
+        //load url info and add to playlist
+        ytdl.getInfo( url[1], {downloadURL: false},
+          function( err, info ) {
+            console.log( info.title );
+            client.playlist.push( url[1] );
+            console.log( client.playlist );
+          }
+        );
+        console.log('url added');///////////////////////
       }
-        
-      //--player remove ... from playlist
+      /////////////////////////////////////////////////////////////////////////////////////////////
+      //--player remove {index}
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
         //regex find anything after remove {index/all}
         //if result = all => playlist.clear(); else playlist.remove(index)
       }
-        
-      //--player clear playlist
+      /////////////////////////////////////////////////////////////////////////////////////////////
+      //--player clear
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" clear") ) {
-        //clear playlist array
-        client.playlist.length = 0;
+        client.playlist.length = 0; //empty playlist array
         message.channel.send(`Playlist cleared.`);
       }
-        
+      /////////////////////////////////////////////////////////////////////////////////////////////
       //--player end
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
         //player leave room and stop stream
       }
-      
+      /////////////////////////////////////////////////////////////////////////////////////////////
     }
   });
 
