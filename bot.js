@@ -92,10 +92,12 @@ clients.forEach( function(client,index) {
         console.log('url valid');///////////////////
         //load url info and add to playlist
         ytdl.getInfo( url[1], {downloadURL:false}, function(err,info) {
-          console.log( err );
-          console.log( info );
-          client.playlist.push( url[1] );
-          console.log( client.playlist );
+          if ( err !== null ) {
+            message.channel.send('Error loading URL.');
+            return;
+          }
+          client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
+          message.channel.send(`${url[1]} added to playlist.\ntitle: \`\`${info.title}\`\` time: \`\`${info.title} seconds\`\``);
         });
         console.log('url added');///////////////////////
       }
