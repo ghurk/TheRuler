@@ -96,8 +96,8 @@ clients.forEach( function(client,index) {
           return;
         }
         client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
-        message.delete().catch(O_o=>{});
-        message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: \`\`'${info.length_seconds}s'\`\`\``);
+        message.delete();
+        message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: '${info.length_seconds}s'\`\`\``);
       });
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
