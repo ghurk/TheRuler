@@ -81,6 +81,9 @@ clients.forEach( function(client,index) {
         }
         //load url info if exists
         message.channel.send( url[1] );
+          
+        var urlCheck = ytdl.validateURL( url[1] );
+        console.log( urlCheck );
         
         ytdl.getInfo( url[1], {downloadURL: false},
           function( err, info ) {
