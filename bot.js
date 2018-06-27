@@ -114,7 +114,7 @@ clients.forEach( function(client,index) {
     else if ( message.content.startsWith( global.prefix+"player"+index+" list" ) ) {
       var string = "";
       client.playlist.forEach( function(track,index) {
-        string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}s'\n`;
+        string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
       });
       message.delete().catch(O_o=>{});
       message.channel.send(`\`\`\`prolog\nPlaylist:\n${string}\`\`\``);
