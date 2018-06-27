@@ -54,11 +54,11 @@ clients.forEach( function(client,index) {
   });
     
   client.on("message", async message => {
-    if ( message.content.toLowerCase().startsWith( global.prefix+'player'+index ) ) {
+    if ( message.content.startsWith( global.prefix+'player'+index ) ) {
       //also add permissions check
       /////////////////////////////////////////////////////////////////////////////////////////////
       //--player play
-      if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" play") ) {
+      if ( message.content.startsWith(global.prefix+'player'+index+" play") ) {
         //join users voice channel
         if ( message.member.voiceChannel !== undefined ) {
           message.member.voiceChannel.join() //join users voiceChannel
@@ -75,9 +75,9 @@ clients.forEach( function(client,index) {
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
       //--player add {url}
-      else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
+      else if ( message.content.startsWith(global.prefix+'player'+index+" add") ) {
         //get url from message
-        var url = message.content.toLowerCase().match(/add (.*)?/);
+        var url = message.content.match(/add (.*)?/);
         if ( url === null ) {
           message.channel.send(`Url not specified.`);
           return;
@@ -101,19 +101,19 @@ clients.forEach( function(client,index) {
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
       //--player remove {index}
-      else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
+      else if ( message.content.startsWith(global.prefix+'player'+index+" remove") ) {
         //regex find anything after remove {index/all}
         //if result = all => playlist.clear(); else playlist.remove(index)
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
       //--player clear
-      else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" clear") ) {
+      else if ( message.content.startsWith(global.prefix+'player'+index+" clear") ) {
         client.playlist.length = 0; //empty playlist array
         message.channel.send(`Playlist cleared.`);
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
       //--player end
-      else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
+      else if ( message.content.startsWith(global.prefix+'player'+index+" end") ) {
         //player leave room and stop stream
       }
       /////////////////////////////////////////////////////////////////////////////////////////////
