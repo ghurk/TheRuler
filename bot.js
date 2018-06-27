@@ -60,12 +60,14 @@ clients.forEach( function(client,index) {
         //on success
         .then( connection => {
           client.connection = connection;
+          message.delete().catch(O_o=>{});
           play( message );
         })
         //on fail
         .catch();
       }
       else {
+        message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nYou Are Not In Any Voice Channel\`\`\``);
       }
     }
@@ -75,22 +77,26 @@ clients.forEach( function(client,index) {
       //get url from message
       var url = message.content.match(/add (.*)?/);
       if ( url === null ) {
+        message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nURL Not Specified\`\`\``);
         return;
       }
       //check if url is valid
       var urlCheck = ytdl.validateURL( url[1] );
       if ( urlCheck === false ) {
+        message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nInvalid URL\`\`\``);
         return;
       }
       //load url info and add to playlist
       ytdl.getInfo( url[1], {downloadURL:false}, function(err,info) {
         if ( err !== null ) {
+          message.delete().catch(O_o=>{});
           message.channel.send(`\`\`\`prolog\nError Loading URL.\`\`\``);
           return;
         }
         client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
+        message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: \`\`'${info.length_seconds}s'\`\`\``);
       });
     }
@@ -101,6 +107,7 @@ clients.forEach( function(client,index) {
       client.playlist.forEach( function(track,index) {
         string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}s'\n`;
       });
+      message.delete().catch(O_o=>{});
       message.channel.send(`\`\`\`prolog\nPlaylist:\n${string}\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +119,7 @@ clients.forEach( function(client,index) {
     //--player clear
     else if ( message.content.startsWith( global.prefix+"player"+index+" clear" ) ) {
       client.playlist.length = 0; //empty playlist array
+      message.delete().catch(O_o=>{});
       message.channel.send(`\`\`\`prolog\nPlaylist Cleared\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
