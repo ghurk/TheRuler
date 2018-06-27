@@ -74,13 +74,20 @@ clients.forEach( function(client,index) {
       }
       //--player add ... to playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
-        //regex find anything after add {url}
-        //load url data, on success add url to playlist array in format playlist.push( {url:'...',name:'...',length:'...'} );
+        //get url
         var url = message.content.toLowerCase().match(/add (.*)?/);
         if ( url === null ) {
           message.channel.send(`Url not specified.`);
         }
+        //load url info if exists
         message.channel.send( url[1] );
+        
+        ytdl.getInfo( url[1], {downloadURL: false},
+          function( err, info ) {
+            if (err) throw err;
+            console.log(info);
+          }
+        );
       }
       //--player remove ... from playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
