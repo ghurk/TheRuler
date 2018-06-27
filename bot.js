@@ -53,20 +53,21 @@ clients.forEach( function(client,index) {
     
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player play
-      if ( message.content.startsWith(global.prefix+'player'+index+" play") ) {
-        //join users voice channel
-        if ( message.member.voiceChannel !== undefined ) {
-          message.member.voiceChannel.join() //join users voiceChannel
-          .then( connection => {
-            //start playing
-            client.connection = connection;
-            play( message );
-          })
-          .catch( message.channel.send(`\`\`\`Connection failed.\`\`\``) );
-        }
-        else {
-          message.channel.send(`\`\`\`You are not in any voice channel.\`\`\``);
-        }
+    if ( message.content.startsWith(global.prefix+'player'+index+" play") ) {
+      //join user voice channel
+      if ( message.member.voiceChannel !== undefined ) {
+        message.member.voiceChannel.join() //join users voiceChannel
+        //on success
+        .then( connection => {
+          client.connection = connection;
+          play( message );
+        })
+        //on fail
+        .catch( message.channel.send(`\`\`\`Connection failed.\`\`\``); );
+      }
+      else {
+        message.channel.send(`\`\`\`You are not in any voice channel.\`\`\``);
+      }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player add {url}
@@ -86,7 +87,7 @@ clients.forEach( function(client,index) {
       //load url info and add to playlist
       ytdl.getInfo( url[1], {downloadURL:false}, function(err,info) {
         if ( err !== null ) {
-          message.channel.send('\`\`\`Error loading URL.\`\`\`');
+          message.channel.send(`\`\`\`Error loading URL.\`\`\``);
           return;
         }
         client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
@@ -99,7 +100,7 @@ clients.forEach( function(client,index) {
       var string = "";
       client.playlist.forEach( function(track,index) {
         string += `[${index}] ${track.url}\ntitle: ${track.title} time: ${track.time} seconds\n`;
-      }
+      });
       message.channel.send(`\`\`\`Playlist:\n${string}\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,5 +122,6 @@ clients.forEach( function(client,index) {
     /////////////////////////////////////////////////////////////////////////////////////////////
   });
 
+  //player bot login
   client.login( tokens[index] );
 });
