@@ -36,10 +36,10 @@ clients.forEach( function(client,index) {
   //client.dispatcher;
 
   function play() {
-    var stream = ytdl( client.playlist[0], {filter:'audioonly'} );
+    var track = Math.floor(Math.random()*client.playlist.length);
+    var stream = ytdl( client.playlist[track], {filter:'audioonly'} );
     var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
     dispatcher.on("end", () => {
-      console.log('song ended');
       play();
     });
   }
@@ -54,25 +54,31 @@ clients.forEach( function(client,index) {
       
       //--player play
       if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" play") ) {
+        //join users voice channel
         if ( message.member.voiceChannel !== undefined ) {
           message.member.voiceChannel.join() //join users voiceChannel
           .then( connection => {
+            //start playing
             client.connection = connection;
             play();
           })
           .catch( console.error );
         }
+        else {
+          message.channel.send(`You are not in any voice channel.`);
+        }
       }
-      //--player add ...
+      //--player add ... to playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
         //regex find anything after add {url}
         //load url data, on success add url to playlist array in format playlist.push( {url:'...',name:'...',length:'...'} );
       }
-      //--player remove ...
+      //--player remove ... from playlist
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" remove") ) {
         //regex find anything after remove {index/all}
         //if result = all => playlist.clear(); else playlist.remove(index)
       }
+      //--player end
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
         //player leave room and stop stream
       }
