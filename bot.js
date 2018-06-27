@@ -93,7 +93,8 @@ clients.forEach( function(client,index) {
         //load url info and add to playlist
         ytdl.getInfo( url[1], {downloadURL: false},
           function( err, info ) {
-            console.log( info.title );
+            console.log( err );
+            console.log( info );
             client.playlist.push( url[1] );
             console.log( client.playlist );
           }
