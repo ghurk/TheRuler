@@ -88,8 +88,9 @@ clients.forEach( function(client,index) {
         else {
           ytdl.getInfo( url[1], {downloadURL: false},
             function( err, info ) {
+              console.log( info.title );
               client.playlist.push( url[1] );
-              console.log( info );
+              console.log( client.playlist );
             }
           );
         }
