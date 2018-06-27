@@ -86,6 +86,7 @@ clients.forEach( function(client,index) {
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" clear") ) {
         //clear playlist array
         client.playlist.length = 0;
+        message.channel.send(`Playlist cleared.`);
       }
       //--player end
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" end") ) {
