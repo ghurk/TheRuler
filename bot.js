@@ -28,8 +28,8 @@ clients.forEach( function(client,index) {
   
   //initialize playlist array
   client.playlist = [];
-  client.playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
-  client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
+  //client.playlist.push('https://www.youtube.com/watch?v=-rFW2Df5iRs'); //O - rise
+  //client.playlist.push('https://www.youtube.com/watch?v=EIVgSuuUTwQ'); //O - inner universe
   //initialize connection reference
   client.connection;
   //store dispatcher
@@ -41,7 +41,7 @@ clients.forEach( function(client,index) {
       return;
     }
     var track = Math.floor(Math.random()*client.playlist.length);
-    var stream = ytdl( client.playlist[track], {filter:'audioonly'} );
+    var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
     var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
     dispatcher.on("end", () => {
       play();
@@ -97,7 +97,7 @@ clients.forEach( function(client,index) {
             return;
           }
           client.playlist.push( { url:url[1], title:info.title, time:info.length_seconds } );
-          message.channel.send(`${url[1]} added to playlist.\ntitle: \`\`${info.title}\`\` time: \`\`${info.title} seconds\`\``);
+          message.channel.send(`${url[1]} added to playlist.\ntitle: \`\`${info.title}\`\` time: \`\`${info.length_seconds} seconds\`\``);
         });
         console.log('url added');///////////////////////
       }
