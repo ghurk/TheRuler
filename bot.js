@@ -101,7 +101,7 @@ clients.forEach( function(client,index) {
         var minutes = Math.floor(info.length_seconds/60 -hours*60);
         if ( minutes > 0 ) { time += `${minutes}m `; } //display minutes
         var seconds = info.length_seconds -minutes*60 -hours*3600;
-        time += `${seconds}s`; } //display seconds
+        time += `${seconds}s`; //display seconds
         
 
         client.playlist.push( { url:url[1], title:info.title, time:time } );
