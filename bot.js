@@ -76,7 +76,7 @@ clients.forEach( function(client,index) {
       else if ( message.content.toLowerCase().startsWith(global.prefix+'player'+index+" add") ) {
         //regex find anything after add {url}
         //load url data, on success add url to playlist array in format playlist.push( {url:'...',name:'...',length:'...'} );
-        var url = string.match(/add (.*)?/)[1];
+        var url = message.content.toLowerCase().match(/add (.*)?/)[1];
         message.channel.send( url );
       }
       //--player remove ... from playlist
