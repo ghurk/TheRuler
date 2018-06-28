@@ -37,11 +37,8 @@ clients.forEach( function(client,index) {
     }
     var track = Math.floor(Math.random()*client.playlist.length);
     //var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
-      
-      
+
     console.log( client.connection.player );
-    console.log( client.connection.player.AudioPlayer.streamingData.pausedTime );
-      
       
     var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     console.log("stream started");
