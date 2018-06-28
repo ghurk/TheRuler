@@ -39,7 +39,9 @@ clients.forEach( function(client,index) {
     //var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
 
     console.log( client.connection.player );
+    client.connection.player = null;
       
+     
     var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     console.log("stream started");
     //start new song only if not ended because of command
