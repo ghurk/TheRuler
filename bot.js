@@ -88,6 +88,7 @@ clients.forEach( function(client,index) {
         //end current stream dispatcher if connection&dispatcher exist (prevent multi-play)
         if ( client.connection !== undefined && client.connection.dispatcher !== undefined ) {
           client.connection.dispatcher.end( "command" );
+          console.log("DELETED DISPATCHER");
         }
         client.connection = connection;
         play( message );
