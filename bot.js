@@ -34,11 +34,15 @@ clients.forEach( function(client,index) {
       return;
     }
     var track = Math.floor(Math.random()*client.playlist.length);
-    var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
-    var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
+    //var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
+    var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     console.log("stream started");
       //start new song only if not ended because of command
     dispatcher.on("end", (reason) => {
+        
+      console.log( dispatcher.time );
+      console.log( dispatcher.totalStreamTime );
+        
       console.log('ended');
       console.log( reason );
       if ( reason !== "command" ) {
