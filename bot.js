@@ -57,26 +57,28 @@ clients.forEach( function(client,index) {
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player play
     if ( message.content.startsWith( global.prefix+"player"+index+" play" ) ) {
-      //join user voice channel
-      if ( message.member.voiceChannel !== undefined ) {
-        message.member.voiceChannel.join() //join users voiceChannel
-        //on success
-        .then( connection => {
-           //end current stream dispatcher if connection&dispatcher exist (prevent multi-play)
-          if ( client.connection !== null && client.connection.dispatcher !== undefined ) {
-            client.connection.dispatcher.end( "command" );
-          }
-          client.connection = connection;
-          message.delete().catch(O_o=>{});
-          play( message );
-        })
-        //on fail
-        .catch();
-      }
-      else {
+      //check if user is in voice channel
+      if ( message.member.voiceChannel === undefined ) {
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nYou Are Not In Any Voice Channel\`\`\``);
+        return;
       }
+      //join user voice channel
+      message.member.voiceChannel.join() //join users voiceChannel
+      //on success
+      .then( connection => {
+        //end current stream dispatcher if connection&dispatcher exist (prevent multi-play)
+        if ( client.connection !== undefined && client.connection.dispatcher !== undefined ) {
+          client.connection.dispatcher.end( "command" );
+        }
+        client.connection = connection;
+        play( message );
+        message.delete().catch(O_o=>{});
+        console.log(message.member.voiceChannel);
+        message.channel.send(`\`\`\`prolog\nPlaying In Channel 'insert name...'\`\`\``);
+      })
+      //on fail
+      .catch();
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player add {url}
@@ -142,7 +144,7 @@ clients.forEach( function(client,index) {
     //--player end
     else if ( message.content.startsWith( global.prefix+"player"+index+" end" ) ) {
       //player leave room and stop stream
-      if ( client.connection !== null ) {
+      if ( client.connection !== undefined ) {
         client.connection.disconnect();
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nDisconnected From Voice Channel\`\`\``);
