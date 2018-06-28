@@ -28,6 +28,7 @@ clients.forEach( function(client,index) {
   client.connection;
 
   function play( message ) {
+    console.log("play f started");
     if ( client.playlist.length < 1 ) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
@@ -35,8 +36,11 @@ clients.forEach( function(client,index) {
     var track = Math.floor(Math.random()*client.playlist.length);
     var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
     var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
-    //start new song only if not ended because of command
+    console.log("stream started");
+      //start new song only if not ended because of command
     dispatcher.on("end", (reason) => {
+      console.log('ended');
+      console.log( reason );
       if ( reason !== "command" ) {
         play();
       }
