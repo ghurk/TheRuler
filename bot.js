@@ -62,7 +62,10 @@ clients.forEach( function(client,index) {
         message.member.voiceChannel.join() //join users voiceChannel
         //on success
         .then( connection => {
-          client.connection.dispatcher.end( "command" ); //command end current stream dispatcher
+           //end current stream dispatcher if exists (prevent multi-play)
+          if ( client.connection.dispatcher !== undefined ) {
+            client.connection.dispatcher.end( "command" );
+          }
           client.connection = connection;
           message.delete().catch(O_o=>{});
           play( message );
