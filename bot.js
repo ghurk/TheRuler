@@ -35,8 +35,11 @@ clients.forEach( function(client,index) {
     var track = Math.floor(Math.random()*client.playlist.length);
     var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
     var dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
-    dispatcher.on("end", () => {
-      play();
+    //start new song only if not ended because of command
+    dispatcher.on("end", (reason) => {
+      if ( reason !== "command" ) {
+        play();
+      }
     });
   }
 
@@ -59,6 +62,7 @@ clients.forEach( function(client,index) {
         message.member.voiceChannel.join() //join users voiceChannel
         //on success
         .then( connection => {
+          client.connection.dispatcher.end( "command" ); //command end current stream dispatcher
           client.connection = connection;
           message.delete().catch(O_o=>{});
           play( message );
@@ -135,6 +139,11 @@ clients.forEach( function(client,index) {
     //--player end
     else if ( message.content.startsWith( global.prefix+"player"+index+" end" ) ) {
       //player leave room and stop stream
+      if ( client.connection !== null ) {
+        client.connection.disconnect();
+        message.delete().catch(O_o=>{});
+        message.channel.send(`\`\`\`prolog\nDisconnected From Voice Channel\`\`\``);
+      }
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
   });
