@@ -55,8 +55,18 @@ clients.forEach( function(client,index) {
     //add permissions check here
     
     /////////////////////////////////////////////////////////////////////////////////////////////
+    //--player playlist
+    if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
+      var string = "";
+      client.playlist.forEach( function(track,index) {
+        string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
+      });
+      message.delete().catch(O_o=>{});
+      message.channel.send(`\`\`\`prolog\nPlaylist:\n${string}\`\`\``);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////
     //--player play
-    if ( message.content.startsWith( global.prefix+"player"+index+" play" ) ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" play" ) ) {
       //check if user is in voice channel
       if ( message.member.voiceChannel === undefined ) {
         message.delete().catch(O_o=>{});
@@ -74,8 +84,7 @@ clients.forEach( function(client,index) {
         client.connection = connection;
         play( message );
         message.delete().catch(O_o=>{});
-        console.log(message.member.voiceChannel);
-        message.channel.send(`\`\`\`prolog\nPlaying In Channel 'insert name...'\`\`\``);
+        message.channel.send(`\`\`\`prolog\nPlaying In Channel '${message.member.voiceChannel.name}'\`\`\``);
       })
       //on fail
       .catch();
@@ -117,16 +126,6 @@ clients.forEach( function(client,index) {
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: '${time}'\`\`\``);
       });
-    }
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    //--player list
-    else if ( message.content.startsWith( global.prefix+"player"+index+" list" ) ) {
-      var string = "";
-      client.playlist.forEach( function(track,index) {
-        string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
-      });
-      message.delete().catch(O_o=>{});
-      message.channel.send(`\`\`\`prolog\nPlaylist:\n${string}\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player remove {index}
