@@ -27,7 +27,7 @@ clients.forEach( function(client,index) {
   //initialize connection reference
   client.connection;
   //initialize dispatcher reference
-  client.dispatcher;
+  //client.dispatcher;
     
   function play( message ) {
     console.log("play f started");
@@ -37,11 +37,11 @@ clients.forEach( function(client,index) {
     }
     var track = Math.floor(Math.random()*client.playlist.length);
     //var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
-    console.log( client.dispatcher );
-    client.dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:-5,volume:1} );
+    console.log( client.connection );
+    var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     console.log("stream started");
-      //start new song only if not ended because of command
-    client.dispatcher.on("end", (reason) => {
+    //start new song only if not ended because of command
+    dispatcher.on("end", (reason) => {
         
       console.log( dispatcher.time );
       console.log( dispatcher.totalStreamTime );
