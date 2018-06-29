@@ -55,7 +55,7 @@ clients.forEach( function(client,index) {
       console.log( reason );
         
       if ( reason !== "command" ) {
-        play();
+        play( message );
       }
     });
   }
