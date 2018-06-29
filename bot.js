@@ -35,26 +35,25 @@ clients.forEach( function(client,index) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
     }
-    var track = Math.floor(Math.random()*client.playlist.length);
-    //var stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
-
-    console.log( client.connection.player );
-    console.log('/////////////////////////////////////////////////////////////////////////');
-      console.log( client.connection.player.streamingData.pausedTime );
-      client.connection.player.streamingData.pausedTime = 0;
-    //client.connection.player = null;
       
-     
+    //reset pausedTime to fix incrementing pause issue
+    client.connection.player.streamingData.pausedTime = 0;
+      
+    var track = Math.floor(Math.random()*client.playlist.length);
     var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
-    console.log("stream started");
+    
+    console.log('/////////////////////////////////////////////////////////////////////////');
+    console.log( client.connection );
+    console.log('/////////////////////////////////////////////////////////////////////////');
+    
     //start new song only if not ended because of command
     dispatcher.on("end", (reason) => {
         
       console.log( dispatcher.time );
       console.log( dispatcher.totalStreamTime );
-        
       console.log('ended');
       console.log( reason );
+        
       if ( reason !== "command" ) {
         play();
       }
@@ -95,7 +94,7 @@ clients.forEach( function(client,index) {
       message.member.voiceChannel.join() //join users voiceChannel
       //on success
       .then( connection => {
-        //end current stream dispatcher if connection&dispatcher exist (prevent multi-play)
+        //prevent multi-play & reset played track on new command
         if ( client.connection !== undefined && client.connection.dispatcher !== undefined ) {
           client.connection.dispatcher.end( "command" );
           console.log("DELETED DISPATCHER");
