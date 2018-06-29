@@ -47,7 +47,9 @@ clients.forEach( function(client,index) {
     //console.log( client.voiceConnections );
     //console.log( client.voiceConnections.first() );
     //console.log('/////////////////////////////////////////////////////////////////////////');
-    console.log( client.connection );
+    //console.log( client.connection );
+    console.log( client.connection.speaking );
+    console.log( client.connection.status );
     console.log('/////////////////////////////////////////////////////////////////////////');
     
     //start new song only if not ended because of command
