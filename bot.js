@@ -40,7 +40,7 @@ clients.forEach( function(client,index) {
 
     console.log( client.connection.player );
     console.log('/////////////////////////////////////////////////////////////////////////');
-      console.log( client.connection.player.streamingData );
+      console.log( client.connection.player.streamingData.pausedTime );
     //client.connection.player = null;
       
      
