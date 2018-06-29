@@ -43,7 +43,7 @@ clients.forEach( function(client,index) {
     var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     
     console.log('/////////////////////////////////////////////////////////////////////////');
-    console.log( client.connections );
+    console.log( client.voiceConnections );
     console.log('/////////////////////////////////////////////////////////////////////////');
     console.log( client.connection );
     console.log('/////////////////////////////////////////////////////////////////////////');
