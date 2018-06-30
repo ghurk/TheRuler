@@ -30,7 +30,7 @@ clients.forEach( function(client,index) {
   //client.dispatcher;
     
   function play( message ) {
-    console.log("play f started");
+    console.log("play started");
     if ( client.playlist.length < 1 ) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
@@ -43,22 +43,14 @@ clients.forEach( function(client,index) {
     //var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
     var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
       
-    console.log('/////////////////////////////////////////////////////////////////////////');
-    //console.log( client.voiceConnections );
-    //console.log( client.voiceConnections.first() );
-    //console.log('/////////////////////////////////////////////////////////////////////////');
-    //console.log( client.connection );
-    console.log( client.connection.speaking );
-    console.log( client.connection.status );
-    console.log('/////////////////////////////////////////////////////////////////////////');
     
     //start new song only if not ended because of command
     dispatcher.on("end", (reason) => {
         
-      console.log( dispatcher.time );
-      console.log( dispatcher.totalStreamTime );
-      console.log('ended');
-      console.log( reason );
+      //console.log( dispatcher.time );
+      //console.log( dispatcher.totalStreamTime );
+      //console.log('ended');
+      //console.log( reason );
         
       if ( reason !== "command" ) {
         play( message );
@@ -78,8 +70,16 @@ clients.forEach( function(client,index) {
     //add permissions check here
     
     /////////////////////////////////////////////////////////////////////////////////////////////
+    //--player log
+    if ( message.content.startsWith( global.prefix+"player"+index+" log" ) ) {
+      //console.log( client.connection.speaking );
+      //console.log( client.connection.status );
+      message.delete().catch(O_o=>{});
+      message.channel.send(`\`\`\`prolog\nspeaking:\n${client.connection.speaking}\nstatus:\n${client.connection.status}\`\`\``);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////
     //--player playlist
-    if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
+    else if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
       var string = "";
       client.playlist.forEach( function(track,index) {
         string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
