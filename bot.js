@@ -51,9 +51,9 @@ clients.forEach( function(client,index) {
     });
     dispatcher.on( 'error', console.error );
     dispatcher.on( 'failed', console.error );
-    dispatcher.on( 'warn', console.log(`${client.indexRef}: warning!!!`) );
-    dispatcher.on( 'disconnect', console.log(`${client.indexRef}: disconnecting!!!`) );
-    dispatcher.on( 'reconnecting', console.log(`${client.indexRef}: reconnecting!!!`) );
+    //dispatcher.on( 'warn', console.log(`${client.indexRef}: warning!!!`) );
+    //dispatcher.on( 'disconnect', console.log(`${client.indexRef}: disconnecting!!!`) );
+    //dispatcher.on( 'reconnecting', console.log(`${client.indexRef}: reconnecting!!!`) );
   }
 
   client.on( "ready", () => {
