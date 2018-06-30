@@ -31,27 +31,20 @@ clients.forEach( function(client,index) {
     
   function play( message ) {
     console.log("play started");
+    //check if playlist contains anything to play
     if ( client.playlist.length < 1 ) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
     }
-      
     //reset pausedTime to fix incrementing pause issue
     client.connection.player.streamingData.pausedTime = 0;
-      
-    var track = Math.floor(Math.random()*client.playlist.length);
-    //var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
-    var dispatcher = client.connection.playStream( ytdl(client.playlist[track].url,{filter:'audioonly'}), {seek:0,volume:1} );
-      
-    
-    //start new song only if not ended because of command
+    //play track
+    let track = Math.floor(Math.random()*client.playlist.length);
+    let stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
+    stream.on( 'error', console.error );
+    let dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
     dispatcher.on("end", (reason) => {
-        
-      //console.log( dispatcher.time );
-      //console.log( dispatcher.totalStreamTime );
-      //console.log('ended');
-      //console.log( reason );
-        
+      //start new song only if not ended because of command
       if ( reason !== "command" ) {
         play( message );
       }
@@ -80,7 +73,7 @@ clients.forEach( function(client,index) {
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player playlist
     else if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
-      var string = "";
+      let string = "";
       client.playlist.forEach( function(track,index) {
         string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
       });
@@ -117,14 +110,14 @@ clients.forEach( function(client,index) {
     //--player add {url}
     else if ( message.content.startsWith( global.prefix+"player"+index+" add" ) ) {
       //get url from message
-      var url = message.content.match(/add (.*)?/);
+      let url = message.content.match(/add (.*)?/);
       if ( url === null ) {
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nURL Not Specified\`\`\``);
         return;
       }
       //check if url is valid
-      var urlCheck = ytdl.validateURL( url[1] );
+      let urlCheck = ytdl.validateURL(url[1]);
       if ( urlCheck === false ) {
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nInvalid URL\`\`\``);
@@ -137,12 +130,12 @@ clients.forEach( function(client,index) {
           message.channel.send(`\`\`\`prolog\nError Loading URL.\`\`\``);
           return;
         }
-        var time = "";
-        var hours = Math.floor(info.length_seconds/3600);
+        let time = "";
+        let hours = Math.floor(info.length_seconds/3600);
         if ( hours > 0 ) { time += `${hours}h `; } //display hours
-        var minutes = Math.floor(info.length_seconds/60 -hours*60);
+        let minutes = Math.floor(info.length_seconds/60 -hours*60);
         if ( minutes > 0 ) { time += `${minutes}m `; } //display minutes
-        var seconds = info.length_seconds -minutes*60 -hours*3600;
+        let seconds = info.length_seconds -minutes*60 -hours*3600;
         time += `${seconds}s`; //display seconds
         
 
