@@ -26,11 +26,11 @@ clients.forEach( function(client,index) {
   client.playlist = [];
   //initialize connection reference
   client.connection;
-  //initialize dispatcher reference
-  //client.dispatcher;
+  //save reference to self index in array
+  client.indexRef = index;
     
   function play( message ) {
-    console.log("play started");
+    console.log(`${client.indexRef}: PLAY STARTED`);
     //check if playlist contains anything to play
     if ( client.playlist.length < 1 ) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
@@ -51,9 +51,9 @@ clients.forEach( function(client,index) {
     });
     dispatcher.on( 'error', console.error );
     dispatcher.on( 'failed', console.error );
-    dispatcher.on( 'warn', console.log('warning!!!') );
-    dispatcher.on( 'disconnect', console.log('disconnecting!!!') );
-    dispatcher.on( 'reconnecting', console.log('reconnecting!!!') );
+    dispatcher.on( 'warn', console.log(`${client.indexRef}: warning!!!`) );
+    dispatcher.on( 'disconnect', console.log(`${client.indexRef}: disconnecting!!!`) );
+    dispatcher.on( 'reconnecting', console.log(`${client.indexRef}: reconnecting!!!`) );
   }
 
   client.on( "ready", () => {
