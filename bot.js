@@ -49,6 +49,11 @@ clients.forEach( function(client,index) {
         play( message );
       }
     });
+    dispatcher.on( 'error', console.error );
+    dispatcher.on( 'failed', console.error );
+    dispatcher.on( 'warn', console.log('warning!!!') );
+    dispatcher.on( 'disconnect', console.log('disconnecting!!!') );
+    dispatcher.on( 'reconnecting', console.log('reconnecting!!!') );
   }
 
   client.on( "ready", () => {
