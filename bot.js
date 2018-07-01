@@ -140,9 +140,18 @@ clients.forEach( function(client,index) {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player remove {index}
-    //else if ( message.content.startsWith( global.prefix+"player"+index+" remove" ) ) {
-      //regex find anything after remove {index}
-    //}
+    else if ( message.content.startsWith( global.prefix+"player"+index+" remove" ) ) {
+      //get track index from message
+      let toRemove = message.content.match(/remove (\d+)/);
+      if ( toRemove === null ) {
+        message.delete().catch(O_o=>{});
+        message.channel.send(`\`\`\`prolog\nTrack Not Specified\`\`\``);
+        return;
+      } 
+      let removedTrack = client.playlist.splice(toRemove[1])[0];
+      message.delete().catch(O_o=>{});
+      message.channel.send(`\`\`\`prolog\nRemoved: '${removedTrack.url}'\nTitle: '${removedTrack.title}'\nTime: '${removedTrack.time}'\`\`\``);
+    }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player random
     else if ( message.content.startsWith( global.prefix+"player"+index+" random" ) ) {
