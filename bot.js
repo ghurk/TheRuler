@@ -35,8 +35,6 @@ clients.forEach( function(client,index) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
       return;
     }
-    //reset pausedTime to fix incrementing pause issue
-    client.connection.player.streamingData.pausedTime = 0;
     //choose track to play
     if ( client.random === false ) {
       client.track += 1;
@@ -49,9 +47,11 @@ clients.forEach( function(client,index) {
     let stream = ytdl( client.playlist[client.track].url, {filter:'audioonly'} );
     stream.on( 'error', console.error );
     let dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
-    dispatcher.on( "end", (reason) => {if(reason!=="command"){play(message);}} );
+    dispatcher.on( "end", (reason) => {if(reason!=="command"){play(message);console.log(`${dispatcher.time} // ${dispatcher.totalStreamTime}`);}} );
     dispatcher.on( 'error', console.error );
     dispatcher.on( 'failed', console.error );
+    //reset pausedTime to fix incrementing pause issue
+    client.connection.player.streamingData.pausedTime = 0;
   }
   /////////////////////////////////////////////////
   client.on( "ready", () => {
