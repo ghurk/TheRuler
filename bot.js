@@ -148,7 +148,7 @@ clients.forEach( function(client,index) {
         message.channel.send(`\`\`\`prolog\nTrack Not Specified\`\`\``);
         return;
       } 
-      let removedTrack = client.playlist.splice(toRemove[1])[0];
+      let removedTrack = client.playlist.splice(toRemove[1],toRemove[1]+1)[0];
       message.delete().catch(O_o=>{});
       message.channel.send(`\`\`\`prolog\nRemoved: '${removedTrack.url}'\nTitle: '${removedTrack.title}'\nTime: '${removedTrack.time}'\`\`\``);
     }
