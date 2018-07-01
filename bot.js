@@ -24,10 +24,11 @@ clients.forEach( function(client,index) {
     
   /////////////////////////////////////////////////
   client.playlist = []; //playlist
-  client.connection; //VC connection
-  client.indexRef = index; //index of this player
+  client.playlistLength = 0; //track total playlist time in seconds
   client.track = 0; //index of playing track
   client.random = true; //random/repeat setting
+  client.connection; //VC connection
+  client.indexRef = index; //index of this player
   /////////////////////////////////////////////////
   function play( message ) {
     //check if playlist contains anything to play
@@ -132,8 +133,8 @@ clients.forEach( function(client,index) {
         if ( minutes > 0 ) { time += `${minutes}m `; } //display minutes
         let seconds = info.length_seconds -minutes*60 -hours*3600;
         time += `${seconds}s`; //display seconds
-
-        client.playlist.push( { url:url[1], title:info.title, time:time } );
+        //add data to playlist
+        client.playlist.push( { url:url[1], title:info.title, time:time, timeSeconds:info.length_seconds } );
         message.delete().catch(O_o=>{});
         message.channel.send(`\`\`\`prolog\nAdded: '${url[1]}'\nTitle: '${info.title}'\nTime: '${time}'\`\`\``);
       });
