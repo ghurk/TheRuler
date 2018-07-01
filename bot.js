@@ -21,16 +21,15 @@ tokens.forEach(function(token) {
 
 //create bot functions
 clients.forEach( function(client,index) {
-  
-  //initialize playlist array
-  client.playlist = [];
-  //initialize connection reference
-  client.connection;
-  //save reference to self index in array
-  client.indexRef = index;
     
+  /////////////////////////////////////////////////
+  client.playlist = []; //playlist
+  client.connection; //VC connection
+  client.indexRef = index; //index of this player
+  client.track = 0; //index of playing track
+  client.random = true; //random/repeat setting
+  /////////////////////////////////////////////////
   function play( message ) {
-    console.log(`${client.indexRef}: PLAY STARTED`);
     //check if playlist contains anything to play
     if ( client.playlist.length < 1 ) {
       message.channel.send(`\`\`\`prolog\nPlaylist Empty\`\`\``);
@@ -38,28 +37,27 @@ clients.forEach( function(client,index) {
     }
     //reset pausedTime to fix incrementing pause issue
     client.connection.player.streamingData.pausedTime = 0;
+    //choose track to play
+    if ( client.random === false ) {
+      client.track += 1;
+      if ( client.track >= client.playlist.length ) { client.track = 0; }
+    }
+    else {
+      client.track = Math.floor(Math.random()*client.playlist.length);
+    }
     //play track
-    let track = Math.floor(Math.random()*client.playlist.length);
-    let stream = ytdl( client.playlist[track].url, {filter:'audioonly'} );
+    let stream = ytdl( client.playlist[client.track].url, {filter:'audioonly'} );
     stream.on( 'error', console.error );
     let dispatcher = client.connection.playStream( stream, {seek:0,volume:1} );
-    dispatcher.on("end", (reason) => {
-      //start new song only if not ended because of command
-      if ( reason !== "command" ) {
-        play( message );
-      }
-    });
+    dispatcher.on( "end", (reason) => {if(reason!=="command"){play(message);}} );
     dispatcher.on( 'error', console.error );
     dispatcher.on( 'failed', console.error );
-    //dispatcher.on( 'warn', console.log(`${client.indexRef}: warning!!!`) );
-    //dispatcher.on( 'disconnect', console.log(`${client.indexRef}: disconnecting!!!`) );
-    //dispatcher.on( 'reconnecting', console.log(`${client.indexRef}: reconnecting!!!`) );
   }
-
+  /////////////////////////////////////////////////
   client.on( "ready", () => {
     client.user.setActivity(`${global.prefix}player${index}`);
   });
-    
+  /////////////////////////////////////////////////
   client.on( "message", async message => {
     
     if ( !message.content.startsWith( global.prefix+"player"+index ) ) {
@@ -68,16 +66,8 @@ clients.forEach( function(client,index) {
     //add permissions check here
     
     /////////////////////////////////////////////////////////////////////////////////////////////
-    //--player log
-    if ( message.content.startsWith( global.prefix+"player"+index+" log" ) ) {
-      //console.log( client.connection.speaking );
-      //console.log( client.connection.status );
-      message.delete().catch(O_o=>{});
-      message.channel.send(`\`\`\`prolog\nspeaking:\n${client.connection.speaking}\nstatus:\n${client.connection.status}\`\`\``);
-    }
-    /////////////////////////////////////////////////////////////////////////////////////////////
     //--player playlist
-    else if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
+    if ( message.content.startsWith( global.prefix+"player"+index+" playlist" ) ) {
       let string = "";
       client.playlist.forEach( function(track,index) {
         string += `[${index}] '${track.url}'\nTitle: '${track.title}'\nTime: '${track.time}'\n`;
@@ -142,7 +132,6 @@ clients.forEach( function(client,index) {
         if ( minutes > 0 ) { time += `${minutes}m `; } //display minutes
         let seconds = info.length_seconds -minutes*60 -hours*3600;
         time += `${seconds}s`; //display seconds
-        
 
         client.playlist.push( { url:url[1], title:info.title, time:time } );
         message.delete().catch(O_o=>{});
@@ -151,8 +140,22 @@ clients.forEach( function(client,index) {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player remove {index}
-    else if ( message.content.startsWith( global.prefix+"player"+index+" remove" ) ) {
+    //else if ( message.content.startsWith( global.prefix+"player"+index+" remove" ) ) {
       //regex find anything after remove {index}
+    //}
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //--player random
+    else if ( message.content.startsWith( global.prefix+"player"+index+" random" ) ) {
+      client.random = true;
+      message.delete().catch(O_o=>{});
+      message.channel.send(`\`\`\`prolog\nPlayer Set To 'Random'\`\`\``);
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //--player repeat
+    else if ( message.content.startsWith( global.prefix+"player"+index+" repeat" ) ) {
+      client.random = false;
+      message.delete().catch(O_o=>{});
+      message.channel.send(`\`\`\`prolog\nPlayer Set To 'Repeat'\`\`\``);
     }
     /////////////////////////////////////////////////////////////////////////////////////////////
     //--player clear
