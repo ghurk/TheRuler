@@ -11,7 +11,7 @@
     "discord.js": "^11.3.2",
     "ytdl-core": "^0.20.4",
     "node-opus": "^0.3.0",
-    "ffbinaries": "^1.1.0",
+    "ffmpeg-binaries": "^4.0.0",
     "bufferutil":"^3.0.3",
     "opusscript":"^0.0.6",
     "libsodium":"^0.7.3",
