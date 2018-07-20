@@ -3,6 +3,12 @@ const Discord = require("discord.js");
 //load youtube library and stuff
 const ytdl = require('ytdl-core');
 
+//attemt to get ffmpeg up...
+const ffbinaries = require('ffbinaries');
+ffbinaries.downloadBinaries(function () {
+  console.log('Downloaded all binaries for current platform.');
+});
+
 //load config.json file
 const config = require("./bot_data/config.json");
 //set prefix as global variable
